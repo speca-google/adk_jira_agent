@@ -20,6 +20,7 @@ The key feature of this agent is its use of a "prompt engineering" script that i
 │   ├── prompt.py                  # Stores the prompt template and joins with the context
 │   └── tools.py                   # Contains the tool that executes JQL on Jira
 |
+├── deploy_agent_engine.ipynb      # Python notebook to step-by-step deploy on Vertex Agent Engine
 ├── requirements.txt               # File listing Python dependencies
 └── README.md                      # This file
 ```
@@ -36,7 +37,7 @@ Follow the steps below to set up and run the project.
 
 If you are starting on a new machine, clone the repository.
 ```
-git clone <your-repository-url>
+git clone git@github.com:speca-google/adk_jira_agent.git
 cd adk_jira_agent
 ````
 
@@ -58,19 +59,6 @@ source .venv/bin/activate
 
 ### 3. Install Dependencies
 
-Create a `requirements.txt` file in the root of your project with the following content:
-```
-google-adk
-google-cloud-aiplatform[agent_engines,adk]
-requests
-python-dotenv
-pyyaml
-cloudpickle
-pydantic
-````
-
-Now, install these packages using `pip`.
-
 ```
 pip install -r requirements.txt
 ````
@@ -87,6 +75,7 @@ Create a file named `.env` in the project root and fill it with your credentials
 GOOGLE_GENAI_USE_VERTEXAI="True"
 GOOGLE_CLOUD_PROJECT="gcp_project_id" # Project ID from GCP (where Agent is going to run)
 GOOGLE_CLOUD_LOCATION="us-central1" # Location
+GOOGLE_CLOUD_BUCKET = "gs://your-agent-bucket" #Bucket for deploy on Agent Engine
 
 
 # --- Agent Models ---
@@ -111,7 +100,7 @@ JIRA_API_TOKEN=""
 
 Run the `generate_jira_prompt.py` script from the root directory. 
 
-It will connect to your Jira instance, collect metadata, and use the Gemini API to generate a complete and optimized prompt file.
+It will connect to your Jira instance, collect metadata, samples and use the Gemini to generate a complete and optimized prompt file.
 
 ```
 python generate_jira_prompt.py
@@ -121,14 +110,7 @@ After execution, a new file named `jira_prompt.txt` will be created in the root 
 
 This `jira_prompt.txt` file contains a pre-generated improved prompt based on the context of the specific Jira instance.
 
-### 6. Configure the Agent's Prompt
-
-1. Open the generated file `jira_prompt.txt.txt`.
-2. Copy the **entire** content of this file.
-3. Open the `adk_jira_agent/prompt.py` file.
-4. Paste the copied content inside the triple quotes of the `JQL_PROMPT_TEMPLATE` variable, inserting in the existing content (below the "# DETAILED JIRA INSTANCE CONTEXT").
-
-### 7. Run the Agent
+### 6. Run the Agent on Local for testing
 
 Now that everything is configured, you can start the agent using ADK web. 
 
@@ -137,3 +119,13 @@ adk web
 ```
 
 The `adk web` command will open an web ui to test your agent.
+
+If you got permission error don't forget to run application login.
+
+```
+gcloud auth application-default login
+```
+
+### 7. Deploy this agent on Agent Engine
+
+To deploy this agent, use the Python Notebook `deploy_agent_engine.ipynb`, this file is a step-by-step deploy notebook.

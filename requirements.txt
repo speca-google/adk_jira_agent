@@ -4,3 +4,4 @@ cloudpickle
 pydantic
 pyyaml
 requests
+ipykernel

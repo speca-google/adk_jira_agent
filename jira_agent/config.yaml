@@ -13,9 +13,9 @@
 # limitations under the License.
 
 # Agent metadata
-agent_name: 'jira_adk_agent'
-agent_display_name: 'Jira ADK Agent'
-agent_description: 'Agente útil para gerar consultas sobre tickets do Jira.'
+agent_name: 'jira_agent'
+agent_display_name: 'Jira Agent'
+agent_description: 'Useful agent to retrieve issues information from Jira'
 
 # Deployment settings
 deploy:
