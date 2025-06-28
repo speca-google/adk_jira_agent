@@ -1,0 +1,202 @@
+## OVERVIEW:
+This Jira instance is configured for software development and IT project management, operating under an Agile framework. The project names clearly indicate a focus on large-scale initiatives such as system migrations (e.g., `Jenkins Migration`, `Martin Migration`), new platform development (`Johnson Platform`), client or product launches (`Long-Foster Launch`), and system integrations (`Fletcher-Mason Integration`). The use of `Epic`, `Story`, `Subtask`, and `Task` issue types, combined with fields like `Sprint`, `Story Points`, and `Epic Link`, confirms the adoption of Agile methodologies for tracking work from high-level features down to granular tasks.
+
+---
+
+# DETAILED JIRA INSTANCE CONTEXT
+
+## Accessible Projects:
+- **Fletcher-Mason Integration** (Key: `FI`)
+- **Jenkins Migration** (Key: `JM`)
+- **Johnson Platform** (Key: `JP`)
+- **Long-Foster Launch** (Key: `LL`)
+- **Martin Migration** (Key: `MM`)
+- **Michael-Monroe Launch** (Key: `ML`)
+- **Miles Overhaul** (Key: `MO`)
+- **Montgomery Platform** (Key: `MP`)
+- **Project Zero** (Key: `KAN`)
+- **Rodriguez Integration** (Key: `RI`)
+- **Terry Migration** (Key: `TM`)
+- **Thompson-Gonzalez Integration** (Key: `TI`)
+- **Walker Integration** (Key: `WI`)
+- **White Migration** (Key: `WM`)
+- **Wood-Conway Launch** (Key: `WL`)
+
+---
+
+## Possible Issue Types:
+`Epic, Story, Subtask, Task`
+
+---
+
+## Possible Statuses:
+`Closed, Done, In Progress, Open, Reopened, Resolved, To Do`
+
+---
+
+## Possible Priorities:
+`High, Highest, Low, Lowest, Medium`
+
+---
+
+## Issue Samples by Project:
+
+### Project: **Fletcher-Mason Integration** (`FI`)
+No recent issues found.
+
+### Project: **Jenkins Migration** (`JM`)
+| Key | Type | Summary | Status | Priority |
+|---|---|---|---|---|
+| JM-1 | Story | Teste | Open | Medium |
+
+
+### Project: **Johnson Platform** (`JP`)
+No recent issues found.
+
+### Project: **Long-Foster Launch** (`LL`)
+No recent issues found.
+
+### Project: **Martin Migration** (`MM`)
+No recent issues found.
+
+### Project: **Michael-Monroe Launch** (`ML`)
+No recent issues found.
+
+### Project: **Miles Overhaul** (`MO`)
+No recent issues found.
+
+### Project: **Montgomery Platform** (`MP`)
+No recent issues found.
+
+### Project: **Project Zero** (`KAN`)
+| Key | Type | Summary | Status | Priority |
+|---|---|---|---|---|
+| KAN-103 | Task | Task: Area way measure everyone son front certainly. | To Do | Low |
+| KAN-102 | Task | Task: Long measure see ball skin. | To Do | Low |
+| KAN-101 | Task | Task: Help be impact threat. | Done | High |
+
+
+### Project: **Rodriguez Integration** (`RI`)
+No recent issues found.
+
+### Project: **Terry Migration** (`TM`)
+No recent issues found.
+
+### Project: **Thompson-Gonzalez Integration** (`TI`)
+No recent issues found.
+
+### Project: **Walker Integration** (`WI`)
+No recent issues found.
+
+### Project: **White Migration** (`WM`)
+No recent issues found.
+
+### Project: **Wood-Conway Launch** (`WL`)
+No recent issues found.
+
+---
+
+## Available Fields for Searching:
+- `Status Category Changed` (ID: `statuscategorychangedate`, Searchable: True)
+- `Issue Type` (ID: `issuetype`, Searchable: True)
+- `Submitted forms` (ID: `customfield_10030`, Searchable: True)
+- `Project` (ID: `project`, Searchable: True)
+- `Total forms` (ID: `customfield_10031`, Searchable: True)
+- `Vulnerability` (ID: `customfield_10032`, Searchable: True)
+- `Fix versions` (ID: `fixVersions`, Searchable: True)
+- `Design` (ID: `customfield_10033`, Searchable: True)
+- `Status Category` (ID: `statusCategory`, Searchable: True)
+- `Story Points` (ID: `customfield_10034`, Searchable: True)
+- `Parent` (ID: `parent`, Searchable: True)
+- `Resolution` (ID: `resolution`, Searchable: True)
+- `Project overview key` (ID: `customfield_10035`, Searchable: True)
+- `Project overview status` (ID: `customfield_10036`, Searchable: True)
+- `Prioridade Master` (ID: `customfield_10037`, Searchable: True)
+- `Goals` (ID: `customfield_10027`, Searchable: True)
+- `Open forms` (ID: `customfield_10028`, Searchable: True)
+- `Locked forms` (ID: `customfield_10029`, Searchable: True)
+- `Resolved` (ID: `resolutiondate`, Searchable: True)
+- `Work Ratio` (ID: `workratio`, Searchable: True)
+- `Restrict to` (ID: `issuerestriction`, Searchable: True)
+- `Created` (ID: `created`, Searchable: True)
+- `Sprint` (ID: `customfield_10020`, Searchable: True)
+- `Flagged` (ID: `customfield_10021`, Searchable: True)
+- `Target start` (ID: `customfield_10022`, Searchable: True)
+- `Priority` (ID: `priority`, Searchable: True)
+- `Target end` (ID: `customfield_10023`, Searchable: True)
+- `Sentiment` (ID: `customfield_10024`, Searchable: True)
+- `[CHART] Date of First Response` (ID: `customfield_10025`, Searchable: True)
+- `Labels` (ID: `labels`, Searchable: True)
+- `[CHART] Time in Status` (ID: `customfield_10026`, Searchable: True)
+- `Story point estimate` (ID: `customfield_10016`, Searchable: True)
+- `Issue color` (ID: `customfield_10017`, Searchable: True)
+- `Parent Link` (ID: `customfield_10018`, Searchable: True)
+- `Rank` (ID: `customfield_10019`, Searchable: True)
+- `Affects versions` (ID: `versions`, Searchable: True)
+- `Linked Issues` (ID: `issuelinks`, Searchable: True)
+- `Assignee` (ID: `assignee`, Searchable: True)
+- `Updated` (ID: `updated`, Searchable: True)
+- `Status` (ID: `status`, Searchable: True)
+- `Components` (ID: `components`, Searchable: True)
+- `Description` (ID: `description`, Searchable: True)
+- `Request Type` (ID: `customfield_10010`, Searchable: True)
+- `Epic Name` (ID: `customfield_10011`, Searchable: True)
+- `Epic Status` (ID: `customfield_10012`, Searchable: True)
+- `Epic Color` (ID: `customfield_10013`, Searchable: True)
+- `Epic Link` (ID: `customfield_10014`, Searchable: True)
+- `Time tracking` (ID: `timetracking`, Searchable: True)
+- `Start date` (ID: `customfield_10015`, Searchable: True)
+- `Change type` (ID: `customfield_10005`, Searchable: True)
+- `Change risk` (ID: `customfield_10006`, Searchable: True)
+- `Security Level` (ID: `security`, Searchable: True)
+- `Change reason` (ID: `customfield_10007`, Searchable: True)
+- `Actual start` (ID: `customfield_10008`, Searchable: True)
+- `Attachment` (ID: `attachment`, Searchable: True)
+- `Actual end` (ID: `customfield_10009`, Searchable: True)
+- `Summary` (ID: `summary`, Searchable: True)
+- `Creator` (ID: `creator`, Searchable: True)
+- `Reporter` (ID: `reporter`, Searchable: True)
+- `Development` (ID: `customfield_10000`, Searchable: True)
+- `Team` (ID: `customfield_10001`, Searchable: True)
+- `Organizations` (ID: `customfield_10002`, Searchable: True)
+- `Approvers` (ID: `customfield_10003`, Searchable: True)
+- `Impact` (ID: `customfield_10004`, Searchable: True)
+- `Category` (ID: `customfield_10038`, Searchable: True)
+- `Environment` (ID: `environment`, Searchable: True)
+- `Due date` (ID: `duedate`, Searchable: True)
+- `Comment` (ID: `comment`, Searchable: True)
+- `Log Work` (ID: `worklog`, Searchable: True)
+
+---
+
+## IMPORTANT JQL NOTES
+*   **Dynamic User Queries:** Use `currentUser()` to find issues related to you. For example, `assignee = currentUser()` finds all issues assigned to you.
+*   **Finding Empty Fields:** Use `IS EMPTY` to find issues where a field has no value. For example, `assignee IS EMPTY` finds unassigned issues. Use `IS NOT EMPTY` to find issues where a field has any value.
+*   **Exact Match (`=`) vs. Text Contains (`~`):** Use `=` for exact matches on fields like `status` or `priority` (e.g., `priority = High`). Use `~` for partial text searches within text fields like `summary` or `description` (e.g., `summary ~ "database"`).
+*   **Searching for Multiple Values:** Use the `IN` operator to check a field against a list of values, which is cleaner than multiple `OR` clauses. For example, `status in ("To Do", "In Progress")`. Use `NOT IN` to exclude a list of values.
+*   **Dynamic Date Functions:** Use functions like `now()`, `startOfDay()`, `startOfWeek()`, `startOfMonth()`, and `startOfYear()` to create queries relative to the current date. You can also use relative dates like `-1w` (one week ago). For example, `created >= startOfMonth()` finds all issues created since the beginning of the current month.
+
+---
+
+## EXAMPLES
+
+**Question:** "Show me all high or highest priority work in any Migration project that is not yet done, and sort it by project and then priority."
+**JQL Query:** "project in (JM, MM, TM, WM) AND priority in (High, Highest) AND statusCategory != Done ORDER BY project, priority DESC"
+
+**Question:** "Find all Stories across the Launch projects that were created in the last 90 days but have not been estimated with Story Points."
+**JQL Query:** "project in (LL, ML, WL) AND issuetype = Story AND \"Story Points\" is EMPTY AND created >= -90d"
+
+**Question:** "What issues are assigned to me in the Platform or Integration projects that are either overdue or do not have a due date set?"
+**JQL Query:** "project in (JP, MP, FI, RI, TI, WI) AND assignee = currentUser() AND (dueDate < now() OR dueDate is EMPTY)"
+
+**Question:** "List all Epics that have been updated this month but have not yet been completed, ordered by the most recently updated."
+**JQL Query:** "issuetype = Epic AND updated >= startOfMonth() AND status != Done ORDER BY updated DESC"
+
+**Question:** "Find all tasks or subtasks in Project Zero still in a 'To Do' state that mention 'impact' or 'measure' in their summary."
+**JQL Query:** "project = KAN AND issuetype in (Task, Subtask) AND statusCategory = \"To Do\" AND (summary ~ \"impact\" OR summary ~ \"measure\")"
+
+**Question:** "Show me any issues that were marked as Resolved in the last 3 months but have since been Reopened, as this might indicate a quality issue."
+**JQL Query:** "status = Reopened AND resolved >= -3M ORDER BY resolved DESC"
+
+**Question:** "I need to find all high-priority 'orphan' Stories that are not linked to an Epic, so we can organize them in our backlog."
+**JQL Query:** "issuetype = Story AND \"Epic Link\" is EMPTY AND priority in (High, Highest)"
