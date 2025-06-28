@@ -12,12 +12,13 @@ The key feature of this agent is its use of a "prompt engineering" script that i
 |
 ├── jira_agent/                    # Python package containing the agent's source code
 │   ├── __init__.py                # Makes the directory a Python package
+│   ├── .env                       # File to store credentials (not versioned)
 │   ├── agent.py                   # Defines the main agent (root agent)
 │   ├── config.yaml                # Agent deployment settings
-│   ├── generate_jira_prompt.py    # Script to analyze Jira and generate the prompt
-│   ├── tools.py                   # Contains the tool that executes JQL on Jira
-│   ├── prompt.py                  # Stores the prompt template
-│   └── .env                       # File to store credentials (not versioned)
+│   ├── generate_jira_context.py   # Script to analyze Jira and generate the context for your instance
+│   ├── jira_context.txt           # Pre-generated improved context file
+│   ├── prompt.py                  # Stores the prompt template and joins with the context
+│   └── tools.py                   # Contains the tool that executes JQL on Jira
 |
 ├── requirements.txt               # File listing Python dependencies
 └── README.md                      # This file
@@ -108,13 +109,17 @@ JIRA_API_TOKEN=""
 
 ### 5. Generate the Jira Context
 
-Run the `generate_jira_prompt.py` script from the root directory. It will connect to your Jira instance, collect metadata, and use the Gemini API to generate a complete and optimized prompt file.
+Run the `generate_jira_prompt.py` script from the root directory. 
+
+It will connect to your Jira instance, collect metadata, and use the Gemini API to generate a complete and optimized prompt file.
 
 ```
 python generate_jira_prompt.py
 ```
 
-After execution, a new file named `jira_prompt.txt.txt` will be created in the root directory.
+After execution, a new file named `jira_prompt.txt` will be created in the root directory.
+
+This `jira_prompt.txt` file contains a pre-generated improved prompt based on the context of the specific Jira instance.
 
 ### 6. Configure the Agent's Prompt
 
