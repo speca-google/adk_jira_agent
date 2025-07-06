@@ -103,6 +103,7 @@ Run the `generate_jira_prompt.py` script from the root directory.
 It will connect to your Jira instance, collect metadata, samples and use the Gemini to generate a complete and optimized prompt file.
 
 ```
+cd jira_agent
 python generate_jira_prompt.py
 ```
 
