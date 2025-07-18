@@ -1,22 +1,10 @@
-# Copyright 2025 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# tools.py
+import json
 import os
 import requests
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
+
+from .utils import optimize_jira_response, json_to_markdown, save_json_for_debug
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -29,6 +17,7 @@ JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN")
 # Setup for authenticated requests
 jira_auth = HTTPBasicAuth(JIRA_API_USER, JIRA_API_TOKEN) if all([JIRA_BASE_URL, JIRA_API_USER, JIRA_API_TOKEN]) else None
 jira_headers = {"Accept": "application/json", "Content-Type": "application/json"}
+
 
 def query_jira(jql_query: str, max_results: int = 50, start_at: int = 0) -> dict:
     """
@@ -65,8 +54,21 @@ def query_jira(jql_query: str, max_results: int = 50, start_at: int = 0) -> dict
         # Raise an exception for bad status codes (4xx or 5xx)
         response.raise_for_status()
         
-        # Return the successful JSON response
-        return response.json()
+        # Get the raw JSON response
+        raw_json_data = response.json()
+        #save_json_for_debug(raw_json_data,"raw_data.json")
+
+
+        # Optimize the JSON response
+        optimized_json_data = optimize_jira_response(raw_json_data)
+        #save_json_for_debug(optimized_json_data,"optmized_data.json")
+
+        # Transform json respons into markdown to optmize the understand of the Agent
+        markdown_response = {"results_markdown": json_to_markdown(optimized_json_data)}
+        #save_json_for_debug(markdown_response,"markdown_data.json")
+
+        # Return the optimized JSON response for further use
+        return  markdown_response
 
     except requests.exceptions.HTTPError as http_err:
         # Try to return a more specific error from Jira's response
