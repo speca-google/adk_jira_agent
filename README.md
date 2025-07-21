@@ -18,7 +18,8 @@ The key feature of this agent is its use of a "prompt engineering" script that i
 │   ├── generate_jira_context.py   # Script to analyze Jira and generate the context for your instance
 │   ├── jira_context.txt           # Pre-generated improved context file
 │   ├── prompt.py                  # Stores the prompt template and joins with the context
-│   └── tools.py                   # Contains the tool that executes JQL on Jira
+│   ├── tools.py                   # Contains the tool that executes JQL on Jira
+│   └── utils.py                   # Contains the utils functions to optmize Jira API response
 |
 ├── deploy_agent_engine.ipynb      # Python notebook to step-by-step deploy on Vertex Agent Engine
 ├── requirements.txt               # File listing Python dependencies
