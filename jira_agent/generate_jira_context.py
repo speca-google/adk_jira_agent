@@ -162,13 +162,13 @@ def get_sample_issues(project_key: str, limit: int = 3):
 
 
 # =======================================================================
-# FUNCTION TO GENERATE PROMPT WITH GEMINI
+# FUNCTION TO GENERATE *ONLY* JQL EXAMPLES WITH GEMINI
 # =======================================================================
-def generate_enhanced_prompt_with_gemini(jira_context: str):
+def generate_jql_examples_with_gemini(jira_context: str):
     """
-    Uses Gemini to construct the full, enhanced prompt based on Jira context.
+    Uses Gemini to construct JQL examples based on the provided Jira context.
     """
-    print("\n--- Generating Full Prompt with Gemini ---")
+    print("\n--- Generating JQL Examples with Gemini ---")
     if not GCP_PROJECT_ID or not GCP_LOCATION:
         print("❌ GCP_PROJECT_ID and GCP_LOCATION must be set in your .env file for Gemini.")
         return None
@@ -181,26 +181,26 @@ def generate_enhanced_prompt_with_gemini(jira_context: str):
         return None
 
     instruction_for_gemini = f"""
-    You are an expert Jira prompt engineer. Your goal is to construct a complete and highly effective prompt.
-    You have been provided with a detailed, machine-generated breakdown of a Jira instance below under "DETAILED JIRA INSTANCE CONTEXT".
-
-    Your task is to generate a final prompt that includes the following, in this exact order:
-    1.  An "OVERVIEW" section that you will write.
-    2.  The full "DETAILED JIRA INSTANCE CONTEXT" provided to you.
-    3.  A section of "IMPORTANT JQL NOTES" that you will write.
-    4.  A section with 7 new, complex, and insightful examples of questions and their corresponding JQL queries.
+    You are an expert Jira Query Language (JQL) assistant.
+    Based on the Jira instance context provided below, your task is to generate a section with exactly 7 new, complex, and insightful examples of questions a user might ask and their corresponding JQL queries.
 
     CRITICAL INSTRUCTIONS:
-    - Your entire response will be the final content for the prompt. Start your response *directly* with `## OVERVIEW:`. Do not include any preamble or other text.
-    - **OVERVIEW:** Write a concise, natural language summary describing what this Jira instance appears to be used for, based on the project names, issue types, and fields.
-    - **IMPORTANT JQL NOTES:** Create a bulleted list of key JQL syntax rules and best practices. Include notes on `currentUser()`, `EMPTY`, the difference between `=` (exact match) and `~` (text contains), using `in` for multiple values, and date functions like `startOfMonth()`.
-    - **EXAMPLES:** The examples must follow the exact format: `**Question:** "..."` followed on a new line by `**JQL Query:** "..."`. The JQL query must be a single line. These examples must be more complex than simple single-clause queries. Use functions, multiple `AND/OR` clauses, and `ORDER BY`.
+    - Your entire response must be ONLY the examples section.
+    - Start your response *directly* with `## EXAMPLES`. Do not include any preamble, introduction, or other text before it.
+    - Each example must follow this exact format:
+      `**Question:** "..."`
+      `**JQL Query:** "..."`
+    - The JQL query must be a single line.
+    - The examples must be more complex than simple single-clause queries. Use functions (like `currentUser()`, `startOfMonth()`), multiple `AND`/`OR` clauses, `ORDER BY`, and reference the actual projects and statuses provided.
+    - **For ALL custom fields, you MUST use the ID syntax (`cf[ID]`). DO NOT use the field name in quotes.** The context provides the exact `cf[ID]` syntax to use for each searchable field.
+    - Ensure the JQL is valid and highly relevant to the provided context.
 
     ---
+    # JIRA INSTANCE CONTEXT
     {jira_context}
     """
 
-    print("Sending request to Gemini... (This may take a moment)")
+    print("Sending request to Gemini for JQL examples... (This may take a moment)")
     try:
         response = model.generate_content(instruction_for_gemini)
         return response.text
@@ -213,8 +213,8 @@ def generate_enhanced_prompt_with_gemini(jira_context: str):
 # =======================================================================
 def main():
     """
-    Connects to Jira, analyzes its metadata, uses Gemini to build a final prompt,
-    and writes it to a text file.
+    Connects to Jira, analyzes its metadata, uses Gemini to build JQL examples,
+    and writes the full combined prompt to a text file.
     """
     if not jira_auth:
         print("Exiting. Please configure the Jira environment variables in your .env file.")
@@ -231,6 +231,7 @@ def main():
 
     # 2. Assemble the dynamic context section using Markdown
     context_lines = ["\n# DETAILED JIRA INSTANCE CONTEXT\n"]
+    context_lines.append("This data is extracted directly from your Jira instance.\n")
     context_lines.append("## Accessible Projects:")
     context_lines.extend([f"- **{p['name']}** (Key: `{p['key']}`)" for p in projects])
     context_lines.append("\n---\n")
@@ -253,19 +254,62 @@ def main():
     context_lines.extend(fields)
     dynamic_jira_context = "\n".join(context_lines)
 
-    # 3. Use Gemini to generate the enhanced parts of the prompt
-    enhanced_prompt_part = generate_enhanced_prompt_with_gemini(dynamic_jira_context)
+    # 3. Use Gemini to generate *only* the JQL examples
+    jql_examples_section = generate_jql_examples_with_gemini(dynamic_jira_context)
 
-    if not enhanced_prompt_part:
-        print("\n❌ Prompt generation failed. No file will be written.")
+    if not jql_examples_section:
+        print("\n❌ JQL example generation failed. No file will be written.")
         return
+        
+    # 4. Define the static (fixed) parts of the prompt
+    overview_section ="""## OVERVIEW:
+This document provides a detailed context of the available Jira instance metadata to help in constructing accurate JQL (Jira Query Language) queries. Use the information below about projects, issue types, fields, and statuses to answer questions.
+"""
 
-    # 4. Write the final prompt to the output file
+    jql_notes_section =\
+"""---
+## IMPORTANT JQL NOTES
+* **Operators**:
+    * Use `=` for exact matches (e.g., `status = 'To Do'`).
+    * Use `~` for "CONTAINS" searches in text fields (e.g., `summary ~ "login"`).
+    * Use `!=`, `!~`, `>`, `<`, `>`=, `<=` for comparisons.
+* **Keywords**:
+    * Use `IN` to match multiple values (e.g., `priority IN (High, Highest)`).
+    * Use `IS EMPTY` or `IS NOT EMPTY` to find issues where a field is blank or not (e.g., `assignee IS EMPTY`).
+* **Functions**:
+    * `currentUser()`: Refers to the person running the query. (e.g., `reporter = currentUser()`).
+    * `startOfDay()`, `startOfWeek()`, `startOfMonth()`, `startOfYear()`: Used for date comparisons. (e.g., `created >= startOfMonth()`). You can use offsets like `"-1w"` for "one week ago".
+* **Logic**:
+    * Combine clauses with `AND` and `OR`. Use parentheses `()` to group logic.
+* **Sorting**:
+    * Use `ORDER BY` to sort results (e.g., `ORDER BY priority DESC, created ASC`).
+* **Custom Fields (Advanced)**:
+    * **Required Syntax**: Custom fields **MUST** be referenced by their ID to ensure queries are reliable, as names can change. The required syntax is `cf[ID]`.
+    * **Finding the Syntax**: The `Available Fields` section below provides the exact JQL to use for every searchable field. For custom fields, it will be in the `cf[12345]` format.
+    * **Example**: To query the "Story point estimate" field, check the `Available Fields` list to find its JQL syntax (e.g., `cf[10016]`) and then use it: `cf[10016] >= 5`.
+    * **Syntax Depends on Field Type**:
+        * **Text**: Use the `~` operator. Example: `cf[10011] ~ "API"`.
+        * **Number**: Use comparison operators (`=`, `>`, `<`). Example: `cf[10016] > 5`.
+        * **Date/Time**: Use date functions. Example: `cf[10023] < "2025/01/01"`.
+        * **Select Lists** (Single or Multi-select): Use `IN` or `NOT IN`. Example: `"Focus Areas" IN ("Mobile", "Backend")`.
+        * **User Pickers**: Use `=` with the user's name or `currentUser()`. Example: `cf[10003] = currentUser()`.
+        * **Dont need confirm with user the custom fields ID, only if you have two or more with same description.**
+"""
+
+    # 5. Assemble the final prompt and write to file
+    final_prompt_content = (
+        f"{overview_section}\n"
+        f"{jql_notes_section}\n"
+        f"{jql_examples_section}\n"
+        f"---\n"
+        f"{dynamic_jira_context}"
+    )
+
     try:
         with open(OUTPUT_FILENAME, 'w', encoding='utf-8') as f:
-            f.write(enhanced_prompt_part)
-        print(f"\n✅ Success! The complete, Gemini-enhanced prompt has been saved to: **{OUTPUT_FILENAME}**")
-        print("You can now copy the content of this file and paste it into your main agent prompt.")
+            f.write(final_prompt_content)
+        print(f"\n✅ Success! The complete, optimized prompt has been saved to: **{OUTPUT_FILENAME}**")
+        print("You can now use the content of this file in your main agent.")
     except IOError as e:
         print(f"\n❌ Error saving file: {e}")
 
