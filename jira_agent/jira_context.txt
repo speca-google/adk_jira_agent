@@ -30,26 +30,26 @@ This document provides a detailed context of the available Jira instance metadat
         * **Dont need confirm with user the custom fields ID, only if you have two or more with same description.**
 
 ## EXAMPLES
-**Question:** "Show me all unresolved Stories and Tasks with a 'High' or 'Highest' priority across all Migration projects (JM, MM, TM, WM) that currently have no assignee, ordered by priority."
-**JQL Query:** "project in (JM, MM, TM, WM) AND issuetype in (Story, Task) AND status not in (Resolved, Closed, Done) AND priority in (High, Highest) AND assignee is EMPTY ORDER BY priority DESC, created ASC"
+**Question:** "Show me all high or highest priority issues in any 'Migration' project that are currently 'In Progress' but have not been updated in the last week, sorted by the oldest update time."
+**JQL Query:** `project in (JM, MM, TM, WM) AND priority in (High, Highest) AND status = "In Progress" AND updated <= -7d ORDER BY updated ASC`
 
-**Question:** "Find all issues in the Integration projects (FI, RI, TI, WI) or Launch projects (LL, ML, WL) that are currently flagged, are not yet Done, and have no value in the 'Team' custom field."
-**JQL Query:** "project in (FI, RI, TI, WI, LL, ML, WL) AND cf[10021] is not EMPTY AND status != Done AND cf[10001] is EMPTY"
+**Question:** "List all my Stories in currently active sprints that are missing a Story Point value, so I can address them before the sprint ends."
+**JQL Query:** `assignee = currentUser() AND issuetype = Story AND cf[10034] is EMPTY AND sprint in openSprints()`
 
-**Question:** "Which issues assigned to me are currently 'In Progress' but have a due date that has already passed, or have no due date at all?"
-**JQL Query:** "assignee = currentUser() AND status = 'In Progress' AND (duedate < now() OR duedate is EMPTY)"
+**Question:** "Which active Epics in the 'Launch' projects are still open? I want to see them ordered by their target end date to track our high-level roadmap."
+**JQL Query:** `project in (LL, ML, WL) AND issuetype = Epic AND status not in (Done, Closed, Resolved) ORDER BY cf[10023] ASC`
 
-**Question:** "List all Stories in any 'Platform' or 'Launch' project that have a Story Point Estimate but are still in the 'To Do' status and were created more than 30 days ago."
-**JQL Query:** "project in (JP, MP, LL, ML, WL) AND issuetype = Story AND cf[10016] is not EMPTY AND status = 'To Do' AND created < -30d ORDER BY cf[10016] DESC"
+**Question:** "Find all Stories created this month for our 'Integration' projects that have not yet been scheduled for a specific release version."
+**JQL Query:** `project in (FI, RI, TI, WI) AND issuetype = Story AND created >= startOfMonth() AND fixVersion is EMPTY ORDER BY created DESC`
 
-**Question:** "Find all Epics in the 'Montgomery Platform' (MP) or 'Wood-Conway Launch' (WL) projects that have a 'Target end' date set for this month."
-**JQL Query:** "project in (MP, WL) AND issuetype = Epic AND cf[10023] >= startOfMonth() AND cf[10023] <= endOfMonth()"
+**Question:** "What high-priority Tasks in our 'Platform' projects are either already overdue or have a due date in the next three days?"
+**JQL Query:** `project in (JP, MP) AND issuetype = Task AND priority >= High AND status not in (Resolved, Closed, Done) AND duedate <= "3d" ORDER BY duedate ASC`
 
-**Question:** "Show me all issues that I have been watching which have been updated in the last 7 days, excluding any from the 'Project Zero' (KAN) project."
-**JQL Query:** "watcher = currentUser() AND updated >= -7d AND project != KAN ORDER BY updated DESC"
+**Question:** "Show me all unresolved issues across the 'Migration' projects that have been flagged as an impediment but haven't been touched in over 3 days, with the highest priority ones first."
+**JQL Query:** `project in (JM, MM, TM, WM) AND cf[10021] is not EMPTY AND statusCategory != Done AND updated <= "-3d" ORDER BY priority DESC`
 
-**Question:** "Identify all tasks or subtasks that were resolved in the last two weeks but have comments indicating a problem (e.g., containing 'failed', 'issue', or 'problem')."
-**JQL Query:** "issuetype in (Task, Subtask) AND resolutiondate >= -14d AND comment ~ 'failed OR issue OR problem' ORDER BY resolutiondate DESC"
+**Question:** "Which high-priority stories or tasks created in the last 30 days for our 'Launch' or 'Integration' efforts are completely unassigned and have no 'Team' associated with them?"
+**JQL Query:** `project in (FI, RI, TI, WI, LL, ML, WL) AND issuetype in (Story, Task) AND priority >= High AND created >= -30d AND assignee is EMPTY AND cf[10001] is EMPTY`
 ---
 
 # DETAILED JIRA INSTANCE CONTEXT

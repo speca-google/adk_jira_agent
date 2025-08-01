@@ -39,7 +39,7 @@ JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN")
 # --- Google Cloud AI / Gemini Configuration (from .env) ---
 GCP_PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
 GCP_LOCATION = os.environ.get("GOOGLE_CLOUD_LOCATION")
-LLM_MODEL = os.environ.get("LLM_MODEL", "gemini-2.5-pro")
+LLM_CONTEXT_MODEL = os.environ.get("LLM_CONTEXT_MODEL", "gemini-2.5-pro")
 
 
 # Global session for making authenticated requests
@@ -175,7 +175,7 @@ def generate_jql_examples_with_gemini(jira_context: str):
 
     try:
         vertexai.init(project=GCP_PROJECT_ID, location=GCP_LOCATION)
-        model = GenerativeModel(LLM_MODEL)
+        model = GenerativeModel(LLM_CONTEXT_MODEL)
     except Exception as e:
         print(f"❌ Error initializing Vertex AI: {e}")
         return None
@@ -306,7 +306,7 @@ This document provides a detailed context of the available Jira instance metadat
     )
 
     try:
-        with open(OUTPUT_FILENAME, 'w', encoding='utf-8') as f:
+        with open('./jira_agent/' + OUTPUT_FILENAME, 'w', encoding='utf-8') as f:
             f.write(final_prompt_content)
         print(f"\n✅ Success! The complete, optimized prompt has been saved to: **{OUTPUT_FILENAME}**")
         print("You can now use the content of this file in your main agent.")

@@ -99,16 +99,15 @@ JIRA_API_TOKEN=""
 
 ### 5. Generate the Jira Context
 
-Run the `generate_jira_prompt.py` script from the root directory. 
+Run the `generate_jira_prompt.py` script from the *root* directory. 
 
 It will connect to your Jira instance, collect metadata, samples and use the Gemini to generate a complete and optimized prompt file.
 
 ```
-cd jira_agent
-python generate_jira_prompt.py
+python jira_agent/generate_jira_prompt.py
 ```
 
-After execution, a new file named `jira_prompt.txt` will be created in the root directory.
+After execution, a new file named `jira_prompt.txt` will be created in the jira_agent directory.
 
 This `jira_prompt.txt` file contains a pre-generated improved prompt based on the context of the specific Jira instance.
 
